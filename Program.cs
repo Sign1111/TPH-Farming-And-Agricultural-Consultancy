@@ -17,6 +17,14 @@ var mongoSettings = new MongoDbSettings
     DatabaseName = "AdeFarmingDB"
 };
 
+// ✅ Configure MongoClient explicitly with TLS 1.2
+var clientSettings = MongoClientSettings.FromConnectionString(mongoSettings.ConnectionString);
+clientSettings.SslSettings = new SslSettings
+{
+    EnabledSslProtocols = SslProtocols.Tls12
+};
+var mongoClient = new MongoClient(clientSettings)
+
 // ✅ Proper Identity + Mongo setup (safe alternative to AddMongoIdentity)
 builder.Services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
 {
