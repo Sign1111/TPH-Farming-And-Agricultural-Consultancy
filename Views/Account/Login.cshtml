@@ -1,0 +1,192 @@
+﻿@model Ade_Farming.ViewModels.LoginViewModel
+
+@{
+    ViewData["Title"] = "Login";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Farm House - Login</title>
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="~/css/global.css" rel="stylesheet">
+    <link href="~/css/news.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap" rel="stylesheet">
+</head>
+<style>
+    body {
+        background-image: url('https://www.shutterstock.com/image-photo/row-cassava-tree-field-growing-600nw-2235483693.jpg');
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        color: black; /* Ensures text is readable */
+    }
+
+</style>
+<body>
+
+    <!-- Top info bar -->
+    <section id="top" class="bg-light py-2">
+        <div class="container">
+            <div class="row text-center text-md-start">
+                <div class="col-md-4 mb-2 mb-md-0">
+                    <p class="mb-0">That's right, we sell 100% organic</p>
+                </div>
+                <div class="col-md-4 mb-2 mb-md-0">
+                    <p class="mb-0">Follow Us</p>
+                </div>
+                <div class="col-md-4">
+                    <p class="mb-0"><i class="fa fa-mobile"></i> +234 915 579 6719</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+        <div class="container">
+                            <a class="nav-link text-dark" asp-controller="Home" asp-action="Index">Home</a>
+                <img src="/img/IMG-20250929-WA0003.jpg" alt="TPH Logo" style="height:50px;" class="me-2">
+                TPH Farming And Agricultural Consultancy
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main-navbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="main-navbar">
+                <!-- Left nav links -->
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a></li>
+                    <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="About" asp-action="about">About Us</a></li>
+                    <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="contact" asp-action="contact">Contact Us</a></li>
+                    <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="service" asp-action="service">Our Service</a></li>
+
+                    <!-- Blogs dropdown -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Blogs</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" asp-area="" asp-controller="news" asp-action="news">Blog</a></li>
+                            <li><a class="dropdown-item" asp-area="" asp-controller="news_details" asp-action="new_detail">Blog Details</a></li>
+                        </ul>
+                    </li>
+
+                    <!-- Posts dropdown -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Posts</a>
+                        <ul class="dropdown-menu">
+                            @if (User.IsInRole("Admin") || User.HasClaim("IsSeller", "True"))
+                            {
+                                <li><a class="dropdown-item" asp-controller="CassavaStem" asp-action="MyPosts">Create Cassava Stem Post</a></li>
+                                <li><a class="dropdown-item" asp-controller="CassavaTubers" asp-action="MyPosts">Create Cassava Tubers Post</a></li>
+                                <li><a class="dropdown-item" asp-controller="PlantainSuckers" asp-action="MyPosts">Create Plantain Suckers Post</a></li>
+                                <li><a class="dropdown-item" asp-controller="BananaSucker" asp-action="MyPosts">Create Banana Sucker Post</a></li>
+                                <li><a class="dropdown-item" asp-controller="OilPalmSeedling" asp-action="MyPosts">Create Oil Palm Seedling Post</a></li>
+                                <li><a class="dropdown-item" asp-controller="CocoaPalmSeedling" asp-action="MyPosts">Create Cocoa Palm Seedling Post</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                            }
+                            <li><a class="dropdown-item" asp-controller="CassavaStem" asp-action="Index">Cassava Stem Posts</a></li>
+                            <li><a class="dropdown-item" asp-controller="CassavaTubers" asp-action="Index">Cassava Tubers Posts</a></li>
+                            <li><a class="dropdown-item" asp-controller="PlantainSuckers" asp-action="Index">Plantain Suckers Posts</a></li>
+                            <li><a class="dropdown-item" asp-controller="BananaSucker" asp-action="Index">Banana Sucker Posts</a></li>
+                            <li><a class="dropdown-item" asp-controller="OilPalmSeedling" asp-action="Index">Oil Palm Seedling Posts</a></li>
+                            <li><a class="dropdown-item" asp-controller="CocoaPalmSeedling" asp-action="Index">Cocoa Palm Seedling Posts</a></li>
+                        </ul>
+                    </li>
+
+                    <!-- More dropdown -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">More</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+                            <li><a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a></li>
+                            <li><a class="dropdown-item" asp-area="" asp-controller="About" asp-action="about">About Us</a></li>
+                            <li><a class="dropdown-item" asp-area="" asp-controller="contact" asp-action="contact">Contact Us</a></li>
+                            <li><a class="dropdown-item" asp-area="" asp-controller="service" asp-action="service">Our Service</a></li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <!-- Right-aligned: Welcome + Logout -->
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <li class="nav-item"><span class="navbar-text">Welcome, @User.Identity.Name</span></li>
+                        <li class="nav-item">
+                            <form id="logoutForm" asp-controller="Account" asp-action="Logout" method="post" class="d-none">
+                                @Html.AntiForgeryToken()
+                            </form>
+                            <a class="nav-link" href="javascript:void(0);" onclick="document.getElementById('logoutForm').submit();">Logout</a>
+                        </li>
+                    </ul>
+                }
+            </div>
+        </div>
+    </nav>
+
+    <!-- Login Form -->
+    <div class="container">
+        <div class="row justify-content-center align-items-center vh-100">
+            <div class="col-md-5">
+                <div class="card shadow-sm">
+                    <div class="card-body p-4">
+                        <div class="text-center mb-4">
+                            <img src="~/Images/IMG-20250929-WA0003.jpg" alt="Ade Farming Logo" class="img-fluid" style="max-height:100px;">
+                        </div>
+
+                        <h3 class="text-center mb-4">Login</h3>
+
+                        @if (TempData["SuccessMessage"] != null)
+                        {
+                            <div class="alert alert-success text-center">@TempData["SuccessMessage"]</div>
+                        }
+
+                        <form asp-action="Login" method="post" class="needs-validation" novalidate>
+                            <div class="mb-3">
+                                <label asp-for="Email" class="form-label"></label>
+                                <input asp-for="Email" class="form-control" />
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
+
+                            <div class="mb-3">
+                                <label asp-for="Password" class="form-label"></label>
+                                <input asp-for="Password" type="password" class="form-control" />
+                                <span asp-validation-for="Password" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-check mb-3">
+                                <input asp-for="RememberMe" class="form-check-input" type="checkbox" />
+                                <label asp-for="RememberMe" class="form-check-label">Remember Me</label>
+                            </div>
+                            <div class="mt-2">
+                                <a asp-action="ForgotPassword" class="text-decoration-none">Forgot Password?</a>
+                            </div>
+
+
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary">Login</button>
+                            </div>
+                        </form>
+
+                        <div class="mt-3 text-center">
+                            <a asp-action="Register" class="text-decoration-none">Don't have an account? Register</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

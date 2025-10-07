@@ -1,0 +1,357 @@
+﻿@{
+	Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Farm House</title>
+	<link href="~/css/bootstrap.min.css" rel="stylesheet">
+	<link href="~/css/global.css" rel="stylesheet">
+	<link href="~/css/contact.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="css/font-awesome.min.css" />
+	<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap" rel="stylesheet">
+	<script src="~/js/jquery-2.1.1.min.js"></script>
+	<script src="~/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+	<div class="main clearfix">
+		<div class="main_1 clearfix">
+			<section id="top">
+				<div class="container">
+					<div class="row">
+						<div class="top_1 clearfix">
+							<div class="col-sm-4">
+								<div class="top_1l clearfix text-center">
+									<p class="mgt col">That's right, we sell 100% organic</p>
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<div class="top_1m text-center clearfix">
+									<ul class="mgt">
+										<li>Follow Us</li>
+
+									</ul>
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<div class="top_1r text-center clearfix">
+									<p class="mgt col"><i class="fa fa-mobile"></i> +234 915 579 6719</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+			<section id="header">
+				<nav class="navbar navbar-default">
+					<div class="container">
+						<!-- Navbar header (logo + toggle button) -->
+						<div class="navbar-header">
+							<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+								<span class="sr-only">Toggle navigation</span>
+								<span class="icon-bar"></span>
+								<span class="icon-bar"></span>
+								<span class="icon-bar"></span>
+							</button>
+							<a class="navbar-brand" href="index.html">
+								<img src="/img/IMG-20250929-WA0003.jpg" alt="TPH Logo" style="height:50px;">
+								TPH Farming And Agricultural Consultancy
+							</a>
+						</div>
+
+						<!-- Navbar links -->
+						<div class="collapse navbar-collapse" id="main-navbar">
+							<!-- Left-aligned main links -->
+							<ul class="nav navbar-nav">
+								<li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+								<li><a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a></li>
+								<li><a asp-area="" asp-controller="About" asp-action="about">About Us</a></li>
+								<li><a asp-area="" asp-controller="contact" asp-action="contact">Contact Us</a></li>
+								<li><a asp-area="" asp-controller="service" asp-action="service">Our Service</a></li>
+
+								<!-- Blogs dropdown -->
+								<li class="dropdown">
+									<a href="#" class="dropdown-toggle" data-toggle="dropdown">Blogs <span class="caret"></span></a>
+									<ul class="dropdown-menu">
+										<li><a asp-area="" asp-controller="news" asp-action="news">Blog</a></li>
+										<li><a asp-area="" asp-controller="news_details" asp-action="new_detail">Blog Details</a></li>
+									</ul>
+								</li>
+
+								<!-- Posts dropdown -->
+								<li class="dropdown">
+									<a href="#" class="dropdown-toggle" data-toggle="dropdown">Posts <span class="caret"></span></a>
+									<ul class="dropdown-menu">
+										@if (User.IsInRole("Admin") || User.HasClaim("IsSeller", "True"))
+										{
+											<li><a asp-controller="CassavaStem" asp-action="MyPosts">Create Cassava Stem Post</a></li>
+											<li><a asp-controller="CassavaTubers" asp-action="MyPosts">Create Cassava Tubers Post</a></li>
+											<li><a asp-controller="PlantainSuckers" asp-action="MyPosts">Create Plantain Suckers Post</a></li>
+											<li><a asp-controller="BananaSucker" asp-action="MyPosts">Create Banana Sucker Post</a></li>
+											<li><a asp-controller="OilPalmSeedling" asp-action="MyPosts">Create Oil Palm Seedling Post</a></li>
+											<li><a asp-controller="CocoaPalmSeedling" asp-action="MyPosts">Create Cocoa Palm Seedling Post</a></li>
+											<li class="divider"></li>
+										}
+										<li><a asp-controller="CassavaStem" asp-action="Index">Cassava Stem Posts</a></li>
+										<li><a asp-controller="CassavaTubers" asp-action="Index">Cassava Tubers Posts</a></li>
+										<li><a asp-controller="PlantainSuckers" asp-action="Index">Plantain Suckers Posts</a></li>
+										<li><a asp-controller="BananaSucker" asp-action="Index">Banana Sucker Posts</a></li>
+										<li><a asp-controller="OilPalmSeedling" asp-action="Index">Oil Palm Seedling Posts</a></li>
+										<li><a asp-controller="CocoaPalmSeedling" asp-action="Index">Cocoa Palm Seedling Posts</a></li>
+									</ul>
+								</li>
+
+								<!-- More dropdown -->
+								<li class="dropdown">
+									<a href="#" class="dropdown-toggle" data-toggle="dropdown">More <span class="caret"></span></a>
+									<ul class="dropdown-menu">
+										<li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+										<li><a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a></li>
+										<li><a asp-area="" asp-controller="About" asp-action="about">About Us</a></li>
+										<li><a asp-area="" asp-controller="contact" asp-action="contact">Contact Us</a></li>
+										<li><a asp-area="" asp-controller="service" asp-action="service">Our Service</a></li>
+										@if (User.IsInRole("Admin"))
+										{
+											<li class="nav-item">
+												<a class="nav-link text-dark" asp-controller="Admin" asp-action="Index">Admin Dashboard</a>
+											</li>
+										}
+									</ul>
+								</li>
+							</ul>
+
+							<!-- Right-aligned: Welcome + Logout -->
+							@if (User.Identity.IsAuthenticated)
+							{
+								<ul class="nav navbar-nav navbar-right">
+									<li class="navbar-text">Welcome, @User.Identity.Name</li>
+									<li>
+										<form id="logoutForm" asp-controller="Account" asp-action="Logout" method="post" class="d-none">
+											@Html.AntiForgeryToken()
+										</form>
+										<a class="nav-link" href="javascript:void(0);" onclick="document.getElementById('logoutForm').submit();">Logout</a>
+									</li>
+								</ul>
+							}
+						</div>
+					</div>
+				</nav>
+			</section>
+
+
+		</div>
+		<div class="main_2 clearfix">
+
+			<section id="center" class="center_contact clearfix">
+				<div class="center_serv_m">
+					<div class="container">
+						<div class="row">
+							<div class="center_serv_1 text-center">
+								<div class="col-sm-12">
+									<h1 class="mgt col">Contact Us</h1>
+									<p class="col">
+										TPH Farming And Agricultural Consultancy
+										.
+									</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+		</div>
+
+	</div>
+
+	<section id="contact">
+		<div class="container">
+			<div class="row">
+				<div class="environment_1 text-center clearfix">
+					<div class="col-sm-12">
+						<span class="col_1"><i class="fa fa-leaf"></i></span>
+						<h4>Here's how you can get in touch</h4>
+						<h1>Commitment to the Environment</h1>
+					</div>
+				</div>
+			</div>
+
+			<div class="row contact_1 clearfix">
+				<!-- Left: Form -->
+				<div class="col-sm-6">
+					<div class="contact_1l clearfix">
+						<form id="contactForm" action="https://api.web3forms.com/submit" method="POST">
+							<input type="hidden" name="access_key" value="ffffc849-9a7a-4e01-8217-fab48b656627">
+							<input type="checkbox" name="botcheck" class="hidden" style="display:none;">
+
+							<input type="hidden" name="website" value="TPH Farming And Agricultural Consultancy">
+							<input type="hidden" name="subject" value="New Contact Form Message from TPH Farming And Agricultural Consultancy">
+
+							<input class="form-control" name="name" placeholder="Name" type="text" required>
+							<input class="form-control" name="email" placeholder="Email" type="email" required>
+
+							<textarea class="form-control" name="message" placeholder="Message" required></textarea>
+
+							<button type="submit" class="button">SEND MESSAGE</button>
+
+							<div id="form-messages" style="margin-top:10px;"></div>
+						</form>
+					</div>
+				</div>
+
+				<!-- Right: Contact info -->
+				<div class="col-sm-6">
+					<div class="contact_1r mgt clearfix">
+						<div class="col-sm-3">
+							<span><i class="fa fa-phone"></i></span>
+						</div>
+						<div class="col-sm-9">
+							<h5 class="mgt">Waiting Your Call! <br> +234 915 579 6719</h5>
+						</div>
+					</div>
+
+					<div class="contact_1r clearfix">
+						<div class="col-sm-3">
+							<span><i class="fa fa-envelope-o"></i></span>
+						</div>
+						<div class="col-sm-9">
+							<h5 class="mgt">Email the Site Owner <br> Adeyinkaadeolu2020@gmail.com</h5>
+						</div>
+					</div>
+
+					<div class="contact_1r clearfix">
+						<div class="col-sm-3">
+							<span><i class="fa fa-map-marker"></i></span>
+						</div>
+						<div class="col-sm-9">
+							<h5 class="mgt">Registered office at <br> Nigeria</h5>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Map -->
+			<div class="row contact_2 clearfix">
+				<div class="col-sm-12">
+					<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d142737.63243134756!2d3.8868724!3d7.4898195!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1039ed8b0b9bec1d%3A0x4f25ea0c50da2aaf!2sSasa%20Market!5e1!3m2!1sen!2sng!4v1759141403080!5m2!1sen!2sng" style="border:0; height:550px; width:100%;" allowfullscreen></iframe>
+				</div>
+			</div>
+		</div>
+	</section>
+
+
+	<section id="footer">
+		<div class="container">
+			<div class="row">
+				<div class="footer_1 clearfix">
+					<div class="col-sm-3">
+						<div class="footer_1l clearfix">
+							<a class="navbar-brand" href="index.html"></i> TPH Farming And Agricultural Consultancy</a>
+							<p class="col">TPH is an agricultural consultancy firm focused on sustainable farming practices, farm management, and providing expert guidance to farmers. They aim to improve agricultural productivity while promoting environmentally friendly methods.</p>
+						</div>
+					</div>
+				
+				</div>
+				<div class="footer_2 clearfix">
+					<div class="col-sm-4">
+						<div class="footer_2i clearfix">
+							<h4 class="col mgt"> Suckers</h4>
+							<ul>
+								<li>Discover Cassava Suckers</li>
+								<li>Discover Cassava Tubers</li>
+								<li>Discover Plantain Suckers</li>
+								<li>Discover Banana Suckers</li>
+								<li>Discover Oil Palm Seedings</li>
+								<li>Discover Cocoa Palm Seedings</li>
+							</ul>
+						</div>
+					</div>
+
+					<div class="col-sm-4">
+						<div class="footer_2i clearfix">
+							<h4 class="col mgt">CONTACT INFO</h4>
+							<ul>
+								<li>+234 915 579 6719</li>
+								<li>Adeyinkaadeolu2020@gmail.com</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="footer_3 text-center clearfix">
+					<p class="mgt col">© 2025 TPH Farming And Agricultural Consultancy. </p>
+				</div>
+			</div>
+		</div>
+	</section>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"></script>
+
+	<script>
+		$("#menu-close").click(function (e) {
+			e.preventDefault();
+			$("#sidebar-wrapper").toggleClass("active");
+		});
+		$("#menu-toggle").click(function (e) {
+			e.preventDefault();
+			$("#sidebar-wrapper").toggleClass("active");
+		});
+		const form = document.getElementById('contactForm');
+		const formMessages = document.getElementById('form-messages');
+
+		form.addEventListener('submit', async function (e) {
+			e.preventDefault();
+
+			formMessages.textContent = 'Sending…';
+			formMessages.style.color = 'white';
+
+			const formData = new FormData(form);
+
+			try {
+				const response = await fetch(form.action, {
+					method: 'POST',
+					body: formData
+				});
+
+				if (response.ok) {
+					formMessages.textContent = 'Thank you! Your message has been sent.';
+					formMessages.style.color = 'white';
+					form.reset();
+				} else {
+					formMessages.textContent = 'Sorry, something went wrong. Please try again.';
+					formMessages.style.color = 'red';
+				}
+			} catch (error) {
+				formMessages.textContent = 'Network error. Please try again.';
+				formMessages.style.color = 'red';
+			}
+		});
+		const connection = new signalR.HubConnectionBuilder()
+			.withUrl("/adminHub")
+			.withAutomaticReconnect()
+			.build();
+
+		connection.on("ReceiveForceLogout", () => {
+			alert("You have been removed from Admin. Logging out...");
+			window.location.href = "/Account/Login";
+		});
+
+		connection.start()
+			.then(() => console.log("SignalR connected"))
+			.catch(err => console.error("SignalR connection error:", err));
+
+		// Optional notification for admin assignment
+		connection.on("ReceiveAdminAssigned", function () {
+			alert("You have been granted Admin privileges!");
+		});
+
+		connection.start().catch(err => console.error(err.toString()));
+
+	</script>
+
+
+</body>
+
+</html>

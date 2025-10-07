@@ -1,0 +1,361 @@
+﻿@{
+	Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Farm House</title>
+	<link href="~/css/bootstrap.min.css" rel="stylesheet">
+	<link href="~/css/global.css" rel="stylesheet">
+	<link href="~/css/detail.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="css/font-awesome.min.css" />
+	<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap" rel="stylesheet">
+	<script src="~/js/jquery-2.1.1.min.js"></script>
+	<script src="~/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+	<div class="main clearfix">
+		<div class="main_1 clearfix">
+			<section id="top">
+				<div class="container">
+					<div class="row">
+						<div class="top_1 clearfix">
+							<div class="col-sm-4">
+								<div class="top_1l clearfix text-center">
+									<p class="mgt col">That's right, we sell 100% organic</p>
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<div class="top_1m text-center clearfix">
+									<ul class="mgt">
+										<li>Follow Us</li>
+
+									</ul>
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<div class="top_1r text-center clearfix">
+									<p class="mgt col"><i class="fa fa-mobile"></i> +234 915 579 6719</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+			<section id="header">
+				<nav class="navbar navbar-default">
+					<div class="container">
+						<!-- Navbar header (logo + toggle button) -->
+						<div class="navbar-header">
+							<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+								<span class="sr-only">Toggle navigation</span>
+								<span class="icon-bar"></span>
+								<span class="icon-bar"></span>
+								<span class="icon-bar"></span>
+							</button>
+							<a class="navbar-brand" href="index.html">
+								<img src="/img/IMG-20250929-WA0003.jpg" alt="TPH Logo" style="height:50px;">
+								TPH Farming And Agricultural Consultancy
+							</a>
+						</div>
+
+						<!-- Navbar links -->
+						<div class="collapse navbar-collapse" id="main-navbar">
+							<!-- Left-aligned main links -->
+							<ul class="nav navbar-nav">
+								<li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+								<li><a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a></li>
+								<li><a asp-area="" asp-controller="About" asp-action="about">About Us</a></li>
+								<li><a asp-area="" asp-controller="contact" asp-action="contact">Contact Us</a></li>
+								<li><a asp-area="" asp-controller="service" asp-action="service">Our Service</a></li>
+
+								<!-- Blogs dropdown -->
+								<li class="dropdown">
+									<a href="#" class="dropdown-toggle" data-toggle="dropdown">Blogs <span class="caret"></span></a>
+									<ul class="dropdown-menu">
+										<li><a asp-area="" asp-controller="news" asp-action="news">Blog</a></li>
+										<li><a asp-area="" asp-controller="news_details" asp-action="new_detail">Blog Details</a></li>
+									</ul>
+								</li>
+
+								<!-- Posts dropdown -->
+								<li class="dropdown">
+									<a href="#" class="dropdown-toggle" data-toggle="dropdown">Posts <span class="caret"></span></a>
+									<ul class="dropdown-menu">
+										@if (User.IsInRole("Admin") || User.HasClaim("IsSeller", "True"))
+										{
+											<li><a asp-controller="CassavaStem" asp-action="MyPosts">Create Cassava Stem Post</a></li>
+											<li><a asp-controller="CassavaTubers" asp-action="MyPosts">Create Cassava Tubers Post</a></li>
+											<li><a asp-controller="PlantainSuckers" asp-action="MyPosts">Create Plantain Suckers Post</a></li>
+											<li><a asp-controller="BananaSucker" asp-action="MyPosts">Create Banana Sucker Post</a></li>
+											<li><a asp-controller="OilPalmSeedling" asp-action="MyPosts">Create Oil Palm Seedling Post</a></li>
+											<li><a asp-controller="CocoaPalmSeedling" asp-action="MyPosts">Create Cocoa Palm Seedling Post</a></li>
+											<li class="divider"></li>
+										}
+										<li><a asp-controller="CassavaStem" asp-action="Index">Cassava Stem Posts</a></li>
+										<li><a asp-controller="CassavaTubers" asp-action="Index">Cassava Tubers Posts</a></li>
+										<li><a asp-controller="PlantainSuckers" asp-action="Index">Plantain Suckers Posts</a></li>
+										<li><a asp-controller="BananaSucker" asp-action="Index">Banana Sucker Posts</a></li>
+										<li><a asp-controller="OilPalmSeedling" asp-action="Index">Oil Palm Seedling Posts</a></li>
+										<li><a asp-controller="CocoaPalmSeedling" asp-action="Index">Cocoa Palm Seedling Posts</a></li>
+									</ul>
+								</li>
+
+								<!-- More dropdown -->
+								<li class="dropdown">
+									<a href="#" class="dropdown-toggle" data-toggle="dropdown">More <span class="caret"></span></a>
+									<ul class="dropdown-menu">
+										<li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+										<li><a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a></li>
+										<li><a asp-area="" asp-controller="About" asp-action="about">About Us</a></li>
+										<li><a asp-area="" asp-controller="contact" asp-action="contact">Contact Us</a></li>
+										<li><a asp-area="" asp-controller="service" asp-action="service">Our Service</a></li>
+										@if (User.IsInRole("Admin"))
+										{
+											<li class="nav-item">
+												<a class="nav-link text-dark" asp-controller="Admin" asp-action="Index">Admin Dashboard</a>
+											</li>
+										}
+									</ul>
+								</li>
+							</ul>
+
+							<!-- Right-aligned: Welcome + Logout -->
+							@if (User.Identity.IsAuthenticated)
+							{
+								<ul class="nav navbar-nav navbar-right">
+									<li class="navbar-text">Welcome, @User.Identity.Name</li>
+									<li>
+										<form id="logoutForm" asp-controller="Account" asp-action="Logout" method="post" class="d-none">
+											@Html.AntiForgeryToken()
+										</form>
+										<a class="nav-link" href="javascript:void(0);" onclick="document.getElementById('logoutForm').submit();">Logout</a>
+									</li>
+								</ul>
+							}
+						</div>
+					</div>
+				</nav>
+			</section>
+
+
+		</div>
+		<div class="main_2 clearfix">
+
+			<section id="center" class="center_detail clearfix">
+				<div class="center_serv_m">
+					<div class="container">
+						<div class="row">
+							<div class="center_serv_1 text-center">
+								<div class="col-sm-12">
+									<h1 class="mgt col">News Detail</h1>
+									<p class="col">Wild flowers , plants and fungi are the life support for all our wildlife <br> and their colour and character light up our landscapes. </p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+		</div>
+
+	</div>
+
+	<section id="news">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-9">
+					<div class="news_l mgt clearfix">
+						<div class="news_home_1i clearfix">
+							<img src="/img/IMG-20250929-WA0003.jpg" class="iw" alt="farm consultancy">
+							<div class="news_home_1ii clearfix"></div>
+							<h3>Farming and Farm Consultancy: Bridging Knowledge with Practice</h3><br>
+							<img src="https://static.wixstatic.com/media/a9fe84_a2f3029bbaa54ffa871f58b0b57eceaf~mv2.jpeg/v1/fill/w_320,h_200,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/WhatsApp%20Image%202023-10-11%20at%2011_31_35%20AM.jpeg" class="img-circle" alt="Mr Adeyinka Adeolu">
+							<h5>by <span class="col_1 bold">Mr Adeyinka Adeolu</span></h5>
+
+							<p>Farming today is far more than planting seeds and waiting for harvest — it is a science, a business, and a lifelong commitment to feeding communities. Modern farmers face challenges such as climate change, soil degradation, and unstable markets. To overcome these obstacles and build resilient farms, expert guidance is essential.</p>
+
+							<p><strong>The Role of Farm Consultancy:</strong> Farm consultancy services provide tailored solutions for crop selection, soil health, irrigation, and sustainable practices. Consultants act as trusted advisors who help farmers boost productivity, reduce waste, and adopt modern strategies for long-term growth.</p>
+
+							<p><strong>Mr. Adeyinka Adeolu’s Vision:</strong> As the founder of this platform, Mr. Adeolu brings years of hands-on farming experience and consultancy expertise. His mission is to bridge the gap between traditional methods and innovative agricultural techniques, empowering farmers to achieve better yields and sustainable results.</p>
+
+							<img src="https://kisaanmitrr.in/wp-content/uploads/2022/07/debd46a6-1.jpg" class="iw" alt="farming field">
+
+							<p><strong>Why It Matters:</strong> Consultancy is not only about advice but also partnership. By guiding farmers in adopting organic fertilizers, efficient water management, and market linkages, consultancy ensures stronger harvests and more profitable farms. This approach supports healthier soils, better food, and sustainable communities.</p>
+
+							<h4>Key Takeaways</h4>
+							<ul class="nav_last">
+								<li>Farm consultancy connects knowledge with practice for better results.</li>
+								<li>Expert guidance saves time, money, and reduces risks for farmers.</li>
+								<li>Modern and traditional methods blend to improve long-term sustainability.</li>
+								<li>Mr. Adeolu’s consultancy vision empowers farmers for a brighter future.</li>
+							</ul>
+
+							<p>As food security becomes one of the world’s greatest challenges, farming and consultancy will remain at the center of building resilient systems. With the leadership of Mr. Adeyinka Adeolu, this blog will continue to inspire, educate, and support farmers in achieving agricultural success.</p>
+						</div>
+
+						<div class="detail_hli3 clearfix">
+							<h3 class="mgt">Leave A Comment</h3>
+
+							<form id="contactForm" action="https://api.web3forms.com/submit" method="POST">
+								<!-- Web3Forms Hidden Fields -->
+								<input type="hidden" name="access_key" value="ffffc849-9a7a-4e01-8217-fab48b656627">
+								<input type="checkbox" name="botcheck" class="hidden" style="display:none;">
+								<input type="hidden" name="website" value="TPH Farming And Agricultural Consultancy">
+								<input type="hidden" name="subject" value="New Comment from TPH Farming And Agricultural Consultancy">
+
+								<div class="detail_hli3i clearfix">
+									<div class="col-sm-6 space_left">
+										<input class="form-control" name="name" placeholder="Full Name" type="text" required>
+									</div>
+									<div class="col-sm-6 space_left">
+										<input class="form-control" name="mobile" placeholder="Mobile" type="text">
+									</div>
+								</div>
+
+								<div class="detail_hli3i clearfix">
+									<div class="col-sm-6 space_left">
+										<input class="form-control" name="email" placeholder="Email" type="email" required>
+									</div>
+									<div class="col-sm-6 space_left">
+										<input class="form-control" name="city" placeholder="City" type="text">
+									</div>
+								</div>
+
+								<div class="detail_hli3i clearfix">
+									<div class="col-sm-12 space_left">
+										<textarea class="form-control form_1" name="message" placeholder="Write Review" required></textarea>
+									</div>
+								</div>
+
+								<h5><button type="submit" class="button">SUBMIT REVIEW</button></h5>
+
+								<div id="form-messages" style="margin-top:10px;"></div>
+							</form>
+						</div>
+
+
+					</div>
+
+				</div>
+			</div>
+		</div>
+		</div>
+		</div>
+		</div>
+		</div>
+	</section>
+
+	<section id="footer">
+		<div class="container">
+			<div class="row">
+				<div class="footer_1 clearfix">
+					<div class="col-sm-3">
+						<div class="footer_1l clearfix">
+							<a class="navbar-brand" href="index.html"></i> TPH Farming And Agricultural Consultancy</a>
+							<p class="col">TPH is an agricultural consultancy firm focused on sustainable farming practices, farm management, and providing expert guidance to farmers. They aim to improve agricultural productivity while promoting environmentally friendly methods.</p>
+						</div>
+					</div>
+					
+				</div>
+				<div class="footer_2 clearfix">
+					<div class="col-sm-4">
+						<div class="footer_2i clearfix">
+							<h4 class="col mgt"> Suckers</h4>
+							<ul>
+								<li>Discover Cassava Suckers</li>
+								<li>Discover Cassava Tubers</li>
+								<li>Discover Plantain Suckers</li>
+								<li>Discover Banana Suckers</li>
+								<li>Discover Oil Palm Seedings</li>
+								<li>Discover Cocoa Palm Seedings</li>
+							</ul>
+						</div>
+					</div>
+
+					<div class="col-sm-4">
+						<div class="footer_2i clearfix">
+							<h4 class="col mgt">CONTACT INFO</h4>
+							<ul>
+								<li>+234 915 579 6719</li>
+								<li>Adeyinkaadeolu2020@gmail.com</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="footer_3 text-center clearfix">
+					<p class="mgt col">© 2025 TPH Farming And Agricultural Consultancy. </p>
+				</div>
+			</div>
+		</div>
+	</section>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"></script>
+
+	<script>
+		$("#menu-close").click(function (e) {
+			e.preventDefault();
+			$("#sidebar-wrapper").toggleClass("active");
+		});
+		$("#menu-toggle").click(function (e) {
+			e.preventDefault();
+			$("#sidebar-wrapper").toggleClass("active");
+		});
+		const form = document.getElementById('contactForm');
+		const formMessages = document.getElementById('form-messages');
+
+		form.addEventListener('submit', async function (e) {
+			e.preventDefault();
+
+			formMessages.textContent = 'Sending…';
+			formMessages.style.color = 'white';
+
+			const formData = new FormData(form);
+
+			try {
+				const response = await fetch(form.action, {
+					method: 'POST',
+					body: formData
+				});
+
+				if (response.ok) {
+					formMessages.textContent = '✅ Thank you! Your comment has been sent.';
+					formMessages.style.color = 'black';
+					form.reset();
+				} else {
+					formMessages.textContent = '❌ Sorry, something went wrong. Please try again.';
+					formMessages.style.color = 'red';
+				}
+			} catch (error) {
+				formMessages.textContent = '⚠️ Network error. Please try again.';
+				formMessages.style.color = 'red';
+			}
+		});
+		const connection = new signalR.HubConnectionBuilder()
+			.withUrl("/adminHub")
+			.withAutomaticReconnect()
+			.build();
+
+		connection.on("ReceiveForceLogout", () => {
+			alert("You have been removed from Admin. Logging out...");
+			window.location.href = "/Account/Login";
+		});
+
+		connection.start()
+			.then(() => console.log("SignalR connected"))
+			.catch(err => console.error("SignalR connection error:", err));
+
+		// Optional notification for admin assignment
+		connection.on("ReceiveAdminAssigned", function () {
+			alert("You have been granted Admin privileges!");
+		});
+
+		connection.start().catch(err => console.error(err.toString()));
+
+	</script>
+</body>
+
+</html>

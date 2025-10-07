@@ -1,0 +1,173 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Ade_Farming</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Ade_Farming.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
+
+</head>
+<body>
+    <style>
+        .sidebar-nav {
+            list-style: none;
+            padding-left: 0;
+        }
+
+            .sidebar-nav li {
+                margin-bottom: 10px;
+            }
+
+                .sidebar-nav li a {
+                    display: block;
+                    padding: 8px 12px;
+                    color: #fff;
+                    background-color: #343a40;
+                    text-decoration: none;
+                    border-radius: 4px;
+                }
+
+                    .sidebar-nav li a:hover {
+                        background-color: #495057;
+                    }
+    </style>
+
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Ade Farming</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav flex-grow-1">
+                        <!-- Main links -->
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="About" asp-action="about">About Us</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="News" asp-action="news">Blog</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="News_Details" asp-action="new_detail">Blog Details</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="Contact" asp-action="contact">Contact Us</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="Service" asp-action="service">Our Service</a>
+                        </li>
+
+                        <!-- Admin Dashboard link -->
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Admin" asp-action="Index">Admin Dashboard</a>
+                            </li>
+                        }
+
+                        <!-- Posts dropdown -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-dark" href="#" id="postsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Posts
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="postsDropdown">
+                                @* Create links only for Admin/Seller *@
+                                @if (User.IsInRole("Admin") || User.HasClaim("IsSeller", "True"))
+                                {
+                                    <li><a class="dropdown-item" asp-controller="CassavaStem" asp-action="MyPosts">Create Cassava Stem Post</a></li>
+                                    <li><a class="dropdown-item" asp-controller="CassavaTubers" asp-action="MyPosts">Create Cassava Tubers Post</a></li>
+                                    <li><a class="dropdown-item" asp-controller="PlantainSuckers" asp-action="MyPosts">Create Plantain Suckers Post</a></li>
+                                    <li><a class="dropdown-item" asp-controller="BananaSucker" asp-action="MyPosts">Create Banana Sucker Post</a></li>
+                                    <li><a class="dropdown-item" asp-controller="OilPalmSeedling" asp-action="MyPosts">Create Oil Palm Seedling Post</a></li>
+                                    <li><a class="dropdown-item" asp-controller="CocoaPalmSeedling" asp-action="MyPosts">Create Cocoa Palm Seedling Post</a></li>
+                                    <li><hr class="dropdown-divider" /></li>
+                                }
+
+                                @* Public index links *@
+                                <li><a class="dropdown-item" asp-controller="CassavaStem" asp-action="Index">Cassava Stem Posts</a></li>
+                                <li><a class="dropdown-item" asp-controller="CassavaTubers" asp-action="Index">Cassava Tubers Posts</a></li>
+                                <li><a class="dropdown-item" asp-controller="PlantainSuckers" asp-action="Index">Plantain Suckers Posts</a></li>
+                                <li><a class="dropdown-item" asp-controller="BananaSucker" asp-action="Index">Banana Sucker Posts</a></li>
+                                <li><a class="dropdown-item" asp-controller="OilPalmSeedling" asp-action="Index">Oil Palm Seedling Posts</a></li>
+                                <li><a class="dropdown-item" asp-controller="CocoaPalmSeedling" asp-action="Index">Cocoa Palm Seedling Posts</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <!-- Right side: Welcome + Logout -->
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <ul class="navbar-nav ms-auto">
+                            <li class="nav-item nav-link text-dark">
+                                Welcome, @User.Identity.Name
+                            </li>
+                            <li class="nav-item">
+                                <form id="logoutForm" asp-controller="Account" asp-action="Logout" method="post" class="d-none">
+                                    @Html.AntiForgeryToken()
+                                </form>
+                                <a class="nav-link text-dark" href="javascript:void(0);" onclick="document.getElementById('logoutForm').submit();">
+                                    Logout
+                                </a>
+                            </li>
+                        </ul>
+                    }
+                </div>
+            </div>
+        </nav>
+    </header>
+
+
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2025 - Ade_Farming - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"></script>
+    <script>
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl("/adminHub")
+            .withAutomaticReconnect()
+            .build();
+
+        connection.on("ReceiveForceLogout", () => {
+            alert("You have been removed from Admin. Logging out...");
+            window.location.href = "/Account/Login";
+        });
+
+        connection.start()
+            .then(() => console.log("SignalR connected"))
+            .catch(err => console.error("SignalR connection error:", err));
+
+        // Optional notification for admin assignment
+        connection.on("ReceiveAdminAssigned", function () {
+            alert("You have been granted Admin privileges!");
+        });
+
+        connection.start().catch(err => console.error(err.toString()));
+
+    </script>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

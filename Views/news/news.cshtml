@@ -1,0 +1,324 @@
+﻿@{
+	Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Farm House</title>
+	<link href="~/css/bootstrap.min.css" rel="stylesheet">
+	<link href="~/css/global.css" rel="stylesheet">
+	<link href="~/css/news.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="css/font-awesome.min.css" />
+	<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap" rel="stylesheet">
+	<script src="~/js/jquery-2.1.1.min.js"></script>
+	<script src="~/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+	<div class="main clearfix">
+		<div class="main_1 clearfix">
+			<section id="top">
+				<div class="container">
+					<div class="row">
+						<div class="top_1 clearfix">
+							<div class="col-sm-4">
+								<div class="top_1l clearfix text-center">
+									<p class="mgt col">That's right, we sell 100% organic</p>
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<div class="top_1m text-center clearfix">
+									<ul class="mgt">
+										<li>Follow Us</li>
+
+									</ul>
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<div class="top_1r text-center clearfix">
+									<p class="mgt col"><i class="fa fa-mobile"></i> +234 915 579 6719</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+			<section id="header">
+				<nav class="navbar navbar-default">
+					<div class="container">
+						<!-- Navbar header (logo + toggle button) -->
+						<div class="navbar-header">
+							<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+								<span class="sr-only">Toggle navigation</span>
+								<span class="icon-bar"></span>
+								<span class="icon-bar"></span>
+								<span class="icon-bar"></span>
+							</button>
+							<a class="navbar-brand" href="index.html">
+								<img src="/img/IMG-20250929-WA0003.jpg" alt="TPH Logo" style="height:50px;">
+								TPH Farming And Agricultural Consultancy
+							</a>
+						</div>
+
+						<!-- Navbar links -->
+						<div class="collapse navbar-collapse" id="main-navbar">
+							<!-- Left-aligned main links -->
+							<ul class="nav navbar-nav">
+								<li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+								<li><a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a></li>
+								<li><a asp-area="" asp-controller="About" asp-action="about">About Us</a></li>
+								<li><a asp-area="" asp-controller="contact" asp-action="contact">Contact Us</a></li>
+								<li><a asp-area="" asp-controller="service" asp-action="service">Our Service</a></li>
+
+								<!-- Blogs dropdown -->
+								<li class="dropdown">
+									<a href="#" class="dropdown-toggle" data-toggle="dropdown">Blogs <span class="caret"></span></a>
+									<ul class="dropdown-menu">
+										<li><a asp-area="" asp-controller="news" asp-action="news">Blog</a></li>
+										<li><a asp-area="" asp-controller="news_details" asp-action="new_detail">Blog Details</a></li>
+									</ul>
+								</li>
+
+								<!-- Posts dropdown -->
+								<li class="dropdown">
+									<a href="#" class="dropdown-toggle" data-toggle="dropdown">Posts <span class="caret"></span></a>
+									<ul class="dropdown-menu">
+										@if (User.IsInRole("Admin") || User.HasClaim("IsSeller", "True"))
+										{
+											<li><a asp-controller="CassavaStem" asp-action="MyPosts">Create Cassava Stem Post</a></li>
+											<li><a asp-controller="CassavaTubers" asp-action="MyPosts">Create Cassava Tubers Post</a></li>
+											<li><a asp-controller="PlantainSuckers" asp-action="MyPosts">Create Plantain Suckers Post</a></li>
+											<li><a asp-controller="BananaSucker" asp-action="MyPosts">Create Banana Sucker Post</a></li>
+											<li><a asp-controller="OilPalmSeedling" asp-action="MyPosts">Create Oil Palm Seedling Post</a></li>
+											<li><a asp-controller="CocoaPalmSeedling" asp-action="MyPosts">Create Cocoa Palm Seedling Post</a></li>
+											<li class="divider"></li>
+										}
+										<li><a asp-controller="CassavaStem" asp-action="Index">Cassava Stem Posts</a></li>
+										<li><a asp-controller="CassavaTubers" asp-action="Index">Cassava Tubers Posts</a></li>
+										<li><a asp-controller="PlantainSuckers" asp-action="Index">Plantain Suckers Posts</a></li>
+										<li><a asp-controller="BananaSucker" asp-action="Index">Banana Sucker Posts</a></li>
+										<li><a asp-controller="OilPalmSeedling" asp-action="Index">Oil Palm Seedling Posts</a></li>
+										<li><a asp-controller="CocoaPalmSeedling" asp-action="Index">Cocoa Palm Seedling Posts</a></li>
+									</ul>
+								</li>
+
+								<!-- More dropdown -->
+								<li class="dropdown">
+									<a href="#" class="dropdown-toggle" data-toggle="dropdown">More <span class="caret"></span></a>
+									<ul class="dropdown-menu">
+										<li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+										<li><a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a></li>
+										<li><a asp-area="" asp-controller="About" asp-action="about">About Us</a></li>
+										<li><a asp-area="" asp-controller="contact" asp-action="contact">Contact Us</a></li>
+										<li><a asp-area="" asp-controller="service" asp-action="service">Our Service</a></li>
+										@if (User.IsInRole("Admin"))
+										{
+											<li class="nav-item">
+												<a class="nav-link text-dark" asp-controller="Admin" asp-action="Index">Admin Dashboard</a>
+											</li>
+										}
+									</ul>
+								</li>
+							</ul>
+
+							<!-- Right-aligned: Welcome + Logout -->
+							@if (User.Identity.IsAuthenticated)
+							{
+								<ul class="nav navbar-nav navbar-right">
+									<li class="navbar-text">Welcome, @User.Identity.Name</li>
+									<li>
+										<form id="logoutForm" asp-controller="Account" asp-action="Logout" method="post" class="d-none">
+											@Html.AntiForgeryToken()
+										</form>
+										<a class="nav-link" href="javascript:void(0);" onclick="document.getElementById('logoutForm').submit();">Logout</a>
+									</li>
+								</ul>
+							}
+						</div>
+					</div>
+				</nav>
+			</section>
+
+
+		</div>
+		<div class="main_2 clearfix">
+
+			<section id="center" class="center_news clearfix">
+				<div class="center_serv_m">
+					<div class="container">
+						<div class="row">
+							<div class="center_serv_1 text-center">
+								<div class="col-sm-12">
+									<h1 class="mgt col">News</h1>
+									<p class="col">Wild flowers , plants and fungi are the life support for all our wildlife <br> and their colour and character light up our landscapes. </p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+		</div>
+
+	</div>
+
+	<section id="news">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-9">
+					<div class="news_l mgt clearfix">
+						<div class="news_home_1i clearfix">
+							<img src="/img/IMG-20250929-WA0003.jpg" class="iw" alt="abc">
+							<div class="news_home_1ii clearfix"><h6 class="mgt">Oct 16, 2025</h6></div>
+							<h3>What About Farming and Farm Consultancy: Bridging Knowledge with Practice</h3>
+
+							<p>Farming today is more than planting seeds and waiting for harvest — it is a science, a business, and a way of life. Modern farmers face challenges ranging from climate change to market fluctuations, and this is where farm consultancy steps in as a vital partner.</p>
+							<h5>
+								<li><a asp-area="" asp-controller="news_details" asp-action="new_detail">Read All Conversation</a></li>
+							</h5>
+						</div>
+					</div>
+					<div class="news_l clearfix">
+						<div class="news_home_1i clearfix">
+							<img src="https://static.wixstatic.com/media/a9fe84_a2f3029bbaa54ffa871f58b0b57eceaf~mv2.jpeg/v1/fill/w_320,h_200,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/WhatsApp%20Image%202023-10-11%20at%2011_31_35%20AM.jpeg" class="iw" alt="abc">
+							<div class="news_home_1ii clearfix"><h6 class="mgt">Oct 16, 2025</h6></div>
+							<h3>What About The Role of Farm Consultancy</h3>
+							<p>Farm consultancy services provide farmers with expert advice on crop selection, soil health management, irrigation systems, and the latest sustainable techniques. Consultants act as problem solvers, guiding farmers in maximizing productivity while reducing costs and risks. With their expertise, farms can adopt practices that ensure long-term sustainability and profitability.</p>
+							<h5>
+								<li><a asp-area="" asp-controller="news_details" asp-action="new_detail">Read All Conversation</a></li>
+							</h5>
+						</div>
+					</div>
+					<div class="news_l clearfix">
+						<div class="news_home_1i clearfix">
+							<img src="https://kisaanmitrr.in/wp-content/uploads/2022/07/debd46a6-1.jpg" class="iw" alt="abc">
+							<div class="news_home_1ii clearfix"><h6 class="mgt">Oct 16, 2025</h6></div>
+							<h3>Why It Matters</h3>
+							<p>By blending traditional knowledge with modern agricultural innovation, consultancy helps bridge the gap between what farmers know and what they need to thrive in today’s market. Whether it’s integrating organic fertilizers, improving water management, or connecting farmers to the right markets, consultancy ensures that agriculture remains both efficient and resilient.</p>
+							<h5>
+								<li><a asp-area="" asp-controller="news_details" asp-action="new_detail">Read All Conversation</a></li>
+							</h5>
+						</div>
+					</div>
+
+
+				</div>
+
+				<div class="news_r1 clearfix">
+					<h3 class="mgt col_1">CATEGORIES</h3>
+					<ul>
+						<li><a asp-area="" asp-controller="news_details" asp-action="new_detail">Farming And Consultancy</a></li>
+						<li><a asp-area="" asp-controller="news_details" asp-action="new_detail"> Role of Farm Consultancy</a></li>
+						<li><a asp-area="" asp-controller="news_details" asp-action="new_detail">Bored Seeds</a></li>
+						<li><a asp-area="" asp-controller="news_details" asp-action="new_detail">Why It Matters</a></li>
+						<li><a asp-area="" asp-controller="news_details" asp-action="new_detail">Soiel & Lands</a></li>
+						<li><a asp-area="" asp-controller="news_details" asp-action="new_detail">Key Takeaways</a></li>
+					</ul>
+				</div>
+				<div class="news_r1 clearfix">
+					<h3 class="mgt col_1">GALLERY</h3>
+					<div class="news_r1i clearfix">
+						<div class="col-sm-6 space_all">
+							<a href="news_detail.html"><img src="https://localrootsfarm.wordpress.com/wp-content/uploads/2015/07/sprinklers.jpg" class="iw" alt="abc"></a>
+						</div>
+						<div class="col-sm-6 space_all">
+							<a href="news_detail.html"><img src="https://media.istockphoto.com/id/965148388/photo/green-ripening-soybean-field-agricultural-landscape.jpg?s=612x612&w=0&k=20&c=cEVP3uj34-5obt-Jf_WI3O9qfP6tVrFaQIv1rBvvpzc=" class="iw" alt="abc"></a>
+						</div>
+					</div>
+					<div class="news_r1i mgt clearfix">
+						<div class="col-sm-6 space_all">
+							<a href="news_detail.html"><img src="https://cdn.wikifarmer.com/images/detailed/2024/07/Organic-Farming-Sustainable-Nutrient-Management-for-higher-yields.jpg" class="iw" alt="abc"></a>
+						</div>
+						<div class="col-sm-6 space_all">
+							<a href="news_detail.html"><img src="https://miro.medium.com/1*gAN5iYgxSBhFT8LwbwgzQA.jpeg" class="iw" alt="abc"></a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		</div>
+		</div>
+	</section>
+
+	<section id="footer">
+		<div class="container">
+			<div class="row">
+				<div class="footer_1 clearfix">
+					<div class="col-sm-3">
+						<div class="footer_1l clearfix">
+							<a class="navbar-brand" href="index.html"></i> TPH Farming And Agricultural Consultancy</a>
+							<p class="col">TPH is an agricultural consultancy firm focused on sustainable farming practices, farm management, and providing expert guidance to farmers. They aim to improve agricultural productivity while promoting environmentally friendly methods.</p>
+						</div>
+					</div>
+					
+				</div>
+				<div class="footer_2 clearfix">
+					<div class="col-sm-4">
+						<div class="footer_2i clearfix">
+							<h4 class="col mgt"> Suckers</h4>
+							<ul>
+								<li>Discover Cassava Suckers</li>
+								<li>Discover Cassava Tubers</li>
+								<li>Discover Plantain Suckers</li>
+								<li>Discover Banana Suckers</li>
+								<li>Discover Oil Palm Seedings</li>
+								<li>Discover Cocoa Palm Seedings</li>
+							</ul>
+						</div>
+					</div>
+
+					<div class="col-sm-4">
+						<div class="footer_2i clearfix">
+							<h4 class="col mgt">CONTACT INFO</h4>
+							<ul>
+								<li>+234 915 579 6719</li>
+								<li>Adeyinkaadeolu2020@gmail.com</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="footer_3 text-center clearfix">
+					<p class="mgt col">© 2025 TPH Farming And Agricultural Consultancy. </p>
+				</div>
+			</div>
+		</div>
+	</section>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"></script>
+
+	<script>
+		$("#menu-close").click(function (e) {
+			e.preventDefault();
+			$("#sidebar-wrapper").toggleClass("active");
+		});
+		$("#menu-toggle").click(function (e) {
+			e.preventDefault();
+			$("#sidebar-wrapper").toggleClass("active");
+		});
+		const connection = new signalR.HubConnectionBuilder()
+			.withUrl("/adminHub")
+			.withAutomaticReconnect()
+			.build();
+
+		connection.on("ReceiveForceLogout", () => {
+			alert("You have been removed from Admin. Logging out...");
+			window.location.href = "/Account/Login";
+		});
+
+		connection.start()
+			.then(() => console.log("SignalR connected"))
+			.catch(err => console.error("SignalR connection error:", err));
+
+		// Optional notification for admin assignment
+		connection.on("ReceiveAdminAssigned", function () {
+			alert("You have been granted Admin privileges!");
+		});
+
+		connection.start().catch(err => console.error(err.toString()));
+
+	</script>
+</body>
+
+</html>

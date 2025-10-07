@@ -1,0 +1,61 @@
+﻿@model IEnumerable<Ade_Farming.ViewModels.AdminUserViewModel>
+
+<h2>Admin Dashboard</h2>
+
+<p>Total Users: @ViewBag.TotalUsers</p>
+<p>Posts Today: @ViewBag.PostsToday</p>
+<p>Posts This Week: @ViewBag.PostsWeek</p>
+<p>Posts This Year: @ViewBag.PostsYear</p>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Full Name</th>
+            <th>Email</th>
+            <th>Is Admin</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.FullName</td>
+                <td>@user.Email</td>
+                <td>@(user.IsAdmin ? "Yes" : "No")</td>
+                <td>
+                    <form asp-action="AssignAdmin" method="post" style="display:inline;">
+                        <input type="hidden" name="userId" value="@user.Id" />
+                        <button type="submit" class="btn btn-success btn-sm">Assign Admin</button>
+                    </form>
+                    <form asp-action="RemoveAdmin" method="post" style="display:inline;">
+                        <input type="hidden" name="userId" value="@user.Id" />
+                        <button type="submit" class="btn btn-danger btn-sm">Remove Admin</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"></script>
+<script>
+    const connection = new signalR.HubConnectionBuilder()
+        .withUrl("/adminHub")
+        .withAutomaticReconnect()
+        .build();
+
+    connection.on("ReceiveForceLogout", () => {
+        alert("You have been removed from Admin. Logging out...");
+        window.location.href = "/Account/Login";
+    });
+
+    connection.start()
+        .then(() => console.log("SignalR connected"))
+        .catch(err => console.error("SignalR connection error:", err));
+    connection.on("ReceiveAdminAssigned", function () {
+        alert("You have been granted Admin privileges!");
+    });
+
+    connection.start().catch(err => console.error(err.toString()));
+
+</script>

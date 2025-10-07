@@ -1,0 +1,39 @@
+﻿@model IEnumerable<Ade_Farming.Models.OilPalmSeedlingPost>
+
+@{
+    ViewData["Title"] = "All Oil Palm Seedling Posts";
+}
+
+<h2 class="mb-4">All Oil Palm Seedling Posts</h2>
+
+@if (!Model.Any())
+{
+    <p>No posts available.</p>
+}
+else
+{
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        @foreach (var post in Model)
+        {
+            <div class="col">
+                <div class="card h-100 shadow-sm">
+                    @if (!string.IsNullOrEmpty(post.ImagePath))
+                    {
+                        <a href="@post.ImagePath" target="_blank">
+                            <img src="@post.ImagePath" class="card-img-top" style="height:200px; object-fit:cover;" />
+                        </a>
+                    }
+                    <div class="card-body">
+                        <h5 class="card-title">@post.Title</h5>
+                        <p class="card-text">@post.Description</p>
+                        <p class="mb-0"><strong>Seller:</strong> @post.SellerName</p>
+                        <p class="mb-0"><strong>Email:</strong> @post.SellerEmail</p>
+                    </div>
+                    <div class="card-footer text-muted">
+                        <small>Created: @post.CreatedAt.ToString("yyyy-MM-dd HH:mm")</small>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
