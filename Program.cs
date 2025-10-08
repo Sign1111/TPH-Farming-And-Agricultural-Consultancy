@@ -8,7 +8,6 @@ using MongoDB.Driver;
 using System;
 
 var builder = WebApplication.CreateBuilder(args);
-System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
 
 // ✅ MongoDB settings
 var mongoSettings = new MongoDbSettings
