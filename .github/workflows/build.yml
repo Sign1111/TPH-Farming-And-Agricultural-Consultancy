@@ -1,0 +1,41 @@
+name: Build and Test Ade_Farming (.NET 8)
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1️⃣ Checkout your code
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 2️⃣ Setup .NET 8 SDK
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      # 3️⃣ Restore dependencies
+      - name: Restore dependencies
+        run: dotnet restore Ade_Farming.csproj
+
+      # 4️⃣ Build project
+      - name: Build
+        run: dotnet build Ade_Farming.csproj --configuration Release --no-restore
+
+      # 5️⃣ Publish for deployment
+      - name: Publish
+        run: dotnet publish Ade_Farming.csproj -c Release -o ./publish --no-restore
+
+      # 6️⃣ Upload build artifacts (optional)
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: Ade_Farming_Publish
+          path: ./publish
