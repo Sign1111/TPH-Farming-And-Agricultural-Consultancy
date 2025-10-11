@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SignalR;
 using MongoDB.Driver;
 using System;
+using System.Security.Claims; // 🟩 Added
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,10 +17,9 @@ var mongoSettings = new MongoDbSettings
     DatabaseName = "AdeFarmingDB"
 };
 
-// ✅ Simple MongoClient (no manual TLS config — Atlas handles it)
 var mongoClient = new MongoClient(mongoSettings.ConnectionString);
 
-// ✅ Proper Identity + Mongo setup
+// ✅ Identity setup
 builder.Services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
 {
     options.Password.RequiredLength = 6;
@@ -34,21 +34,20 @@ builder.Services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
 )
 .AddDefaultTokenProviders();
 
-// ✅ Configure authentication cookies
 builder.Services.ConfigureApplicationCookie(options =>
 {
     options.LoginPath = "/Account/Login";
     options.AccessDeniedPath = "/Account/AccessDenied";
 });
 
-// ✅ Authorization policy for Sellers
+// ✅ Seller policy
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("SellerOnly", policy =>
         policy.RequireClaim("IsSeller", "True"));
 });
 
-// ✅ Register MongoDatabase instance for DI
+// ✅ MongoDB DI
 builder.Services.AddSingleton<IMongoDatabase>(sp =>
 {
     var client = new MongoClient(mongoSettings.ConnectionString);
@@ -61,13 +60,16 @@ builder.Services.AddTransient<IEmailSender, EmailSender>();
 builder.Services.AddSignalR();
 builder.Services.AddSingleton<IUserIdProvider, NameUserIdProvider>();
 
-// ✅ Use port from environment (important for Docker)
+// ✅ 🟩 Automatically re-issue "IsSeller" claim after login
+builder.Services.Configure<IdentityOptions>(options => { });
+builder.Services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, CustomUserClaimsPrincipalFactory>();
+
+// ✅ Port setup for Render
 var port = Environment.GetEnvironmentVariable("PORT") ?? "10000";
 builder.WebHost.UseUrls($"http://*:{port}");
 
 var app = builder.Build();
 
-// ✅ Middleware pipeline
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -76,9 +78,7 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseRouting();
-
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapHub<AdminHub>("/adminHub");
@@ -88,7 +88,7 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Account}/{action=Login}/{id?}");
 
-// ✅ Seed Admin role & user
+// ✅ Admin seeding
 using (var scope = app.Services.CreateScope())
 {
     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<ApplicationRole>>();
@@ -120,4 +120,27 @@ public class MongoDbSettings
 {
     public string ConnectionString { get; set; }
     public string DatabaseName { get; set; }
+}
+
+// 🟩 Add this class below Program.cs (keeps Seller claims persistent)
+public class CustomUserClaimsPrincipalFactory : UserClaimsPrincipalFactory<ApplicationUser, ApplicationRole>
+{
+    public CustomUserClaimsPrincipalFactory(
+        UserManager<ApplicationUser> userManager,
+        RoleManager<ApplicationRole> roleManager,
+        Microsoft.Extensions.Options.IOptions<IdentityOptions> optionsAccessor)
+        : base(userManager, roleManager, optionsAccessor) { }
+
+    protected override async Task<ClaimsIdentity> GenerateClaimsAsync(ApplicationUser user)
+    {
+        var identity = await base.GenerateClaimsAsync(user);
+
+        // 🟩 Add Seller claim if true
+        if (user.IsSeller)
+        {
+            identity.AddClaim(new Claim("IsSeller", "True"));
+        }
+
+        return identity;
+    }
 }
