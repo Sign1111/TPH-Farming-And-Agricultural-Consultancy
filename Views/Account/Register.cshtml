@@ -80,26 +80,25 @@
                                 <span asp-validation-for="Gender" class="text-danger"></span>
                             </div>
 
-                            <div class="mb-3">
-                                <label asp-for="Question1" class="form-label"></label>
-                                <select asp-for="Question1" class="form-select">
-                                    <option value="">Select an answer</option>
-                                    <option value="Yes">Yes</option>
-                                    <option value="No">No</option>
-                                </select>
-                                <span asp-validation-for="Question1" class="text-danger"></span>
-                            </div>
+                            <<div class="mb-3">
+    <label asp-for="Question1" class="form-label">Are you a registered farmer?</label>
+    <select asp-for="Question1" class="form-select">
+        <option value="">Select an answer</option>
+        <option value="Yes">Yes</option>
+        <option value="No">No</option>
+    </select>
+    <span asp-validation-for="Question1" class="text-danger"></span>
+</div>
 
-                            <div class="mb-3">
-                                <label asp-for="Question2" class="form-label"></label>
-                                <select asp-for="Question2" class="form-select">
-                                    <option value="">Select an answer</option>
-                                    <option value="Yes">Yes</option>
-                                    <option value="No">No</option>
-                                </select>
-                                <span asp-validation-for="Question2" class="text-danger"></span>
-                            </div>
-                        </div>
+<div class="mb-3">
+    <label asp-for="Question2" class="form-label">Do you sell or supply farm produce?</label>
+    <select asp-for="Question2" class="form-select">
+        <option value="">Select an answer</option>
+        <option value="Yes">Yes</option>
+        <option value="No">No</option>
+    </select>
+    <span asp-validation-for="Question2" class="text-danger"></span>
+</div>
 
                         <div class="d-grid">
                             <button type="submit" class="btn btn-primary">Register</button>
