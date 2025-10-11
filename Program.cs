@@ -5,7 +5,7 @@ using AspNetCore.Identity.MongoDbCore.Infrastructure;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SignalR;
 using MongoDB.Driver;
-using System;
+using System.Security.Authentication;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,9 +22,9 @@ clientSettings.SslSettings = new SslSettings
 {
     EnabledSslProtocols = SslProtocols.Tls12
 };
-var mongoClient = new MongoClient(clientSettings)
+var mongoClient = new MongoClient(clientSettings);
 
-// ✅ Proper Identity + Mongo setup (safe alternative to AddMongoIdentity)
+// ✅ Proper Identity + Mongo setup
 builder.Services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
 {
     options.Password.RequiredLength = 6;
@@ -65,6 +65,10 @@ builder.Services.AddTransient<IEmailSender, EmailSender>();
 
 builder.Services.AddSignalR();
 builder.Services.AddSingleton<IUserIdProvider, NameUserIdProvider>();
+
+// ✅ Use port from environment (important for Docker)
+var port = Environment.GetEnvironmentVariable("PORT") ?? "10000";
+builder.WebHost.UseUrls($"http://*:{port}");
 
 var app = builder.Build();
 
@@ -116,6 +120,7 @@ using (var scope = app.Services.CreateScope())
 
 app.Run();
 
+// ✅ MongoDB Settings class
 public class MongoDbSettings
 {
     public string ConnectionString { get; set; }
