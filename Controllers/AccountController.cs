@@ -129,34 +129,52 @@ namespace Ade_Farming.Controllers
             return View();
         }
 
+        
         [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel model, [FromServices] IEmailSender emailSender)
-        {
-            if (!ModelState.IsValid)
-                return View(model);
+[AllowAnonymous]
+[ValidateAntiForgeryToken]
+public async Task<IActionResult> ForgotPassword(
+    ForgotPasswordViewModel model, 
+    [FromServices] IEmailSender emailSender,
+    [FromServices] ILogger<AccountController> logger)
+{
+    if (!ModelState.IsValid)
+        return View(model);
 
-            var user = await _userManager.FindByEmailAsync(model.Email);
-            if (user == null)
-            {
-                TempData["Message"] = "If the email exists, a password reset link has been sent.";
-                return RedirectToAction("ForgotPasswordConfirmation");
-            }
+    logger.LogInformation("ForgotPassword called for: {Email}", model.Email);
 
-            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
-            var resetLink = Url.Action("ResetPassword", "Account", new { email = user.Email, token }, Request.Scheme);
+    var user = await _userManager.FindByEmailAsync(model.Email);
+    if (user == null)
+    {
+        logger.LogWarning("User not found for email: {Email}", model.Email);
+        TempData["Message"] = "If the email exists, a password reset link has been sent.";
+        return RedirectToAction("ForgotPasswordConfirmation");
+    }
 
-            // Send real email via Gmail
-            string emailBody = $"<p>Hi {user.FullName},</p>" +
-                               $"<p>You requested to reset your password. Click the link below to reset it:</p>" +
-                               $"<p><a href='{resetLink}'>Reset Password</a></p>" +
-                               "<p>If you did not request this, ignore this email.</p>";
+    var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+    logger.LogInformation("Reset token generated for user: {Email}", model.Email);
 
-            await emailSender.SendEmailAsync(user.Email, "Password Reset - Ade Farming", emailBody);
+    var resetLink = Url.Action("ResetPassword", "Account", new { email = user.Email, token }, Request.Scheme);
 
-            return RedirectToAction("ForgotPasswordConfirmation");
-        }
+    string emailBody = $"<p>Hi {user.FullName},</p>" +
+                       $"<p>You requested to reset your password. Click below to reset it:</p>" +
+                       $"<p><a href='{resetLink}'>Reset Password</a></p>" +
+                       "<p>If you did not request this, ignore this email.</p>";
+
+    try
+    {
+        await emailSender.SendEmailAsync(user.Email, "Password Reset - Ade Farming", emailBody);
+        logger.LogInformation("Password reset email sent successfully to {Email}", user.Email);
+    }
+    catch (Exception ex)
+    {
+        logger.LogError(ex, "Error sending password reset email to {Email}", user.Email);
+        TempData["ErrorMessage"] = "An error occurred while sending the reset email.";
+        return View(model);
+    }
+
+    return RedirectToAction("ForgotPasswordConfirmation");
+}
         [HttpGet]
         [AllowAnonymous]
         public IActionResult ResetPassword(string token, string email)
