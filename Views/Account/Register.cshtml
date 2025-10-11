@@ -1,4 +1,4 @@
-﻿@model Ade_Farming.ViewModels.RegisterViewModel
+@model Ade_Farming.ViewModels.RegisterViewModel
 @{
     ViewData["Title"] = "Register";
 }
@@ -29,25 +29,25 @@
 
                         <div class="mb-3">
                             <label asp-for="FullName" class="form-label"></label>
-                            <input asp-for="FullName" class="form-control" />
+                            <input asp-for="FullName" class="form-control" required />
                             <span asp-validation-for="FullName" class="text-danger"></span>
                         </div>
 
                         <div class="mb-3">
                             <label asp-for="Email" class="form-label"></label>
-                            <input asp-for="Email" class="form-control" />
+                            <input asp-for="Email" class="form-control" required />
                             <span asp-validation-for="Email" class="text-danger"></span>
                         </div>
 
                         <div class="mb-3">
                             <label asp-for="Password" class="form-label"></label>
-                            <input asp-for="Password" type="password" class="form-control" />
+                            <input asp-for="Password" type="password" class="form-control" required />
                             <span asp-validation-for="Password" class="text-danger"></span>
                         </div>
 
                         <div class="mb-3">
                             <label asp-for="ConfirmPassword" class="form-label"></label>
-                            <input asp-for="ConfirmPassword" type="password" class="form-control" />
+                            <input asp-for="ConfirmPassword" type="password" class="form-control" required />
                             <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                         </div>
 
@@ -59,19 +59,19 @@
                         <div id="sellerFields" style="display:none;">
                             <div class="mb-3">
                                 <label asp-for="Address" class="form-label"></label>
-                                <input asp-for="Address" class="form-control" />
+                                <input asp-for="Address" class="form-control" id="addressInput" />
                                 <span asp-validation-for="Address" class="text-danger"></span>
                             </div>
 
                             <div class="mb-3">
                                 <label asp-for="Contact" class="form-label"></label>
-                                <input asp-for="Contact" class="form-control" />
+                                <input asp-for="Contact" class="form-control" id="contactInput" />
                                 <span asp-validation-for="Contact" class="text-danger"></span>
                             </div>
 
                             <div class="mb-3">
                                 <label asp-for="Gender" class="form-label"></label>
-                                <select asp-for="Gender" class="form-select">
+                                <select asp-for="Gender" class="form-select" id="genderSelect">
                                     <option value="">Select Gender</option>
                                     <option value="Male">Male</option>
                                     <option value="Female">Female</option>
@@ -80,25 +80,26 @@
                                 <span asp-validation-for="Gender" class="text-danger"></span>
                             </div>
 
-                            <<div class="mb-3">
-    <label asp-for="Question1" class="form-label">Are you a registered farmer?</label>
-    <select asp-for="Question1" class="form-select">
-        <option value="">Select an answer</option>
-        <option value="Yes">Yes</option>
-        <option value="No">No</option>
-    </select>
-    <span asp-validation-for="Question1" class="text-danger"></span>
-</div>
+                            <div class="mb-3">
+                                <label asp-for="Question1" class="form-label">Are you a registered farmer?</label>
+                                <select asp-for="Question1" class="form-select" id="question1Select">
+                                    <option value="">Select an answer</option>
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
+                                </select>
+                                <span asp-validation-for="Question1" class="text-danger"></span>
+                            </div>
 
-<div class="mb-3">
-    <label asp-for="Question2" class="form-label">Do you sell or supply farm produce?</label>
-    <select asp-for="Question2" class="form-select">
-        <option value="">Select an answer</option>
-        <option value="Yes">Yes</option>
-        <option value="No">No</option>
-    </select>
-    <span asp-validation-for="Question2" class="text-danger"></span>
-</div>
+                            <div class="mb-3">
+                                <label asp-for="Question2" class="form-label">Do you sell or supply farm produce?</label>
+                                <select asp-for="Question2" class="form-select" id="question2Select">
+                                    <option value="">Select an answer</option>
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
+                                </select>
+                                <span asp-validation-for="Question2" class="text-danger"></span>
+                            </div>
+                        </div>
 
                         <div class="d-grid">
                             <button type="submit" class="btn btn-primary">Register</button>
@@ -123,10 +124,20 @@
     <script>
         $(document).ready(function () {
             $('#isSellerCheck').change(function () {
-                if ($(this).is(':checked')) {
+                const isSeller = $(this).is(':checked');
+
+                if (isSeller) {
                     $('#sellerFields').slideDown();
+
+                    // Make seller-related fields required
+                    $('#addressInput, #contactInput, #genderSelect, #question1Select, #question2Select')
+                        .attr('required', true);
                 } else {
                     $('#sellerFields').slideUp();
+
+                    // Remove required attributes
+                    $('#addressInput, #contactInput, #genderSelect, #question1Select, #question2Select')
+                        .removeAttr('required');
                 }
             });
         });
