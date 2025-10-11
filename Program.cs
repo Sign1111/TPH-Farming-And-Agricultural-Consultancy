@@ -1,11 +1,11 @@
-﻿using Ade_Farming.Hubs;
+using Ade_Farming.Hubs;
 using Ade_Farming.Models;
 using Ade_Farming.Services;
 using AspNetCore.Identity.MongoDbCore.Infrastructure;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SignalR;
 using MongoDB.Driver;
-using System.Security.Authentication;
+using System;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,13 +16,8 @@ var mongoSettings = new MongoDbSettings
     DatabaseName = "AdeFarmingDB"
 };
 
-// ✅ Configure MongoClient explicitly with TLS 1.2
-var clientSettings = MongoClientSettings.FromConnectionString(mongoSettings.ConnectionString);
-clientSettings.SslSettings = new SslSettings
-{
-    EnabledSslProtocols = SslProtocols.Tls12
-};
-var mongoClient = new MongoClient(clientSettings);
+// ✅ Simple MongoClient (no manual TLS config — Atlas handles it)
+var mongoClient = new MongoClient(mongoSettings.ConnectionString);
 
 // ✅ Proper Identity + Mongo setup
 builder.Services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
